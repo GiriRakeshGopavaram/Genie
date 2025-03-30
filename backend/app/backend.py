@@ -1,9 +1,16 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from app.codegen_model import generate_code
+from backend.app.codegen_model import generate_code
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Or ["http://localhost:3000"] for more secure dev
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 class PromptRequest(BaseModel):
     prompt: str
     max_tokens: int = 100
